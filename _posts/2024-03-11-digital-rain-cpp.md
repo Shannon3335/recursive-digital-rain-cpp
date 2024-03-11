@@ -25,4 +25,4 @@ A bullet list:
 
 You can add an image that has been uploaded to the repository in a /docs/assets/images folder.
 
-<img src="https://raw.githubusercontent.com/melgineer/digital-rain-cpp/main/docs/assets/images/Robin_260921_1200.jpg" width="100" height="100">
+<img src="https://raw.githubusercontent.com/shannon3335/digital-rain-cpp/main/docs/assets/images/154-23-5-27-18-45-6m.jpg" width="100" height="100">
