@@ -7,7 +7,7 @@ author:
 description: "My C++ project page"
 
 # Build settings
-remote_theme: just-the-docs
+remote_theme: jekyll/minima
 
 plugins:
 - jekyll-remote-theme
