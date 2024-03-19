@@ -20,7 +20,7 @@ Some of the core features C++ I have implemented in my version of Matrix digital
 
 ## Algorithm
 
-There were many ways that I visualised the Matrix Digital rain. I first watched plenty of digital rains created by other people online, created either using coding languages or animation tools. I slowed these videos down to see whether I could find any patterns in the way the characters, rows, or columns moved and changed. 
+There were many ways I visualised the Matrix Digital rain. I first watched plenty of digital rains created by other people online, created either using coding languages or animation tools. I slowed these videos down to see whether I could find any patterns in the way the characters, rows, or columns moved and changed. 
 
 Finally, my best friend when creating this algorithm was the mighty pen and paper. 
 I drew multiple states of the generation of a single rain drop using different concepts, looking for any pattern that jumped out to me.
