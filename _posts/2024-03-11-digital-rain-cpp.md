@@ -1,23 +1,28 @@
 ---
 layout: post
-title: A Project in Modern C++
+title: C++ Matrix Digital Rain
 tags: cpp coding project
 categories: demo
 ---
-
-# C++ Matrix Digital Rain
+##### Shannon Fernandes
 
 ## Introduction
 We have all seen the digital rain from the Matrix series—the iconic green falling Japanese and Roman characters, and Arabic numerals. Simon Whiteley created the Matrix code. In an interview with CNet, Simon said that the characters were scanned from his wife's Japanese cookbooks further saying "I like to tell everybody that the Matrix code is made of Japanese sushi recipes".It has since become the characteristic mark of the franchise, often used in other pop culture media to portray a hacker looking at 3 screens and saying "I'm in". 
 
 Though I will not be hacking anything in this project, I will be creating my take on the digital rain in C++, implementing modern practices and delving deeper into some features provided by the standard C++ library.
 
-Some of the core features C++ I have implemented in my version of Matrix digital rain are:
-- Vectors
-- Deques
-- Async Tasks
-- Mutexes
-- Recursion
+Here is a table of features used from C++ 
+
+| Feature| Purpose |
+| -----------| ----------- |
+| Vectors| Hold status of async tasks|
+| Deques | Implement raindrop of characters|
+| Async Function | Print multiple raindrops concurrently|
+| Recursion | Raindrop printing logic|
+| Mutexes   | Sharing access to cursor pointer|
+| Random Device   | Seed random engine|
+| Random Engine   | Generate pseudo random characters|
+| Distribution   | Constrain random engine to required range|
 
 ## Algorithm
 
@@ -106,12 +111,12 @@ Due to my investigation into JavaScript's asynchronous features, I was inclined 
 When a Droplet finishes printing 
 *insert drawing of status array used to control status of tasks*
 
-####Sharing Access to the Console Cursor
-This worked almost perfectly once I implemented it. However, sharing the console cursor between multiple asynchronous tasks led to quirky behaviour with the cursor getting *lost*. 
+#### Sharing Access to the Console Cursor
+Getting multiple raindrops printed introduced quirky behaviour with the cursor getting *lost*. 
 
 *insert image of cursor being lost*
 
-Using a mutex solved this issue. A mutex is a synchronisation object that is used to control access to a shared resource in a concurrent or multithreaded program. To synchronise access to the  cursor, a mutex is created as a static variable in the DigitalRain class, ensuring the same mutex is shared between all instances of DigitalRain and by extension, all DigitalDroplets. The mutex is passed by reference to the print function, where the mutex is locked right before the console is accessed. The mutex is automatically unlocked after it code escapes the scope of the mutex being locked.
+A mutex is a synchronisation object that is used to control access to a shared resource in a concurrent or multithreaded program. To synchronise access to the cursor which is our shared resource in this case, a mutex is created as a static variable in the DigitalRain class, ensuring the same mutex is shared between all instances of DigitalRain and by extension, all DigitalDroplets. The mutex is passed by reference to the print function, where the mutex is locked right before the console is accessed. The mutex is automatically unlocked after it code escapes the scope of the mutex being locked.
 
 *insert code of mutex in DigitalRain*
 
