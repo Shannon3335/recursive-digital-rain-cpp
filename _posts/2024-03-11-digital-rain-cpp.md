@@ -9,7 +9,7 @@ categories: demo
 ## Introduction
 We have all seen the digital rain from the Matrix series—the iconic green falling Japanese and Roman characters, and Arabic numerals. Simon Whiteley created the Matrix code. In an interview with CNet, Simon said that the characters were scanned from his wife's Japanese cookbooks further saying "I like to tell everybody that the Matrix code is made of Japanese sushi recipes".It has since become the characteristic mark of the franchise, often used in other pop culture media to portray a hacker looking at 3 screens and saying "I'm in". 
 
-Though I will not be hacking anything in this project, I will showcase my take on digital rain in C++, implementing modern practices and delving deeper into some features in the standard C++ library.
+Though I will not be hacking in this project, I will be showcasing my take on digital rain in C++, implementing modern practices and delving deeper into some features in the standard C++ library.
 
 Here is a table of features used from C++ 
 
@@ -29,27 +29,27 @@ Here is a table of features used from C++
 ### Coding Practices
 1. Github 
 
-Though so widely used it may be forgotten, Github was essential in aiding my confidence to experiment, being able to roll back any breaking changes to the last working version of code I had. It's also useful when I want to showcase images of imperfect outputs or issues I was facing.
+Github was essential in aiding my confidence to experiment, being able to rollback breaking changes to the last working version of my code. It's also useful when I want to showcase images of imperfect outputs or issues I was facing as you will see throughout this blog.
 
 *Fig.1.1 GITHUB LOGO*
 
 2. Using Test Functions to create procedural tests
 
-It was useful to test independent complex pieces of code where possible, to catch issues early, and to prevent a situation where many issues layered over each other, making debugging a nightmare.
+It was useful to test independent complex pieces of code where possible, to catch issues early, and to prevent a situation where errors or bugs cascade over each other, making debugging a nightmare.
 
-Apart from the standard constructor, destructor, getter and setter test methods, I tested my methods that had to generate random sizes and characters for sanity before implementing them in my digitalRain logic.
+Apart from the standard constructor, destructor, getter and setter test methods, I sanity tested my methods that had to generate random sizes and characters before implementing them in my digital rain logic.
 
 *Fig.1.2 HEADER TEST CODE*
 
 3. Using global defines for debugging
 
-I used separate global defines to conditionally run the test code I made, and to increase the sleep time between print statements. This allowed me to observe the droplets with closer attention when testing my algorithm.
+I used separate global defines to conditionally run the test code, and to increase the sleep time between print statements. This allowed me to observe the droplets with closer attention when testing my algorithm.
 
 *Fig.1.3 INSERT IMAGE OF DEFINE USING THE TEST GLOBAL DEFINE*
 
 ## Algorithm
 
-There are many ways I visualise the Matrix Digital rain. I first watched plenty of digital rains created by other people online, using coding languages or graphics tools. I slowed these videos down to see whether I could find any patterns in how the characters, rows, or columns moved and changed. 
+There are many ways I visualise the Matrix Digital rain. I first watched plenty of digital rains created by other people online using coding languages or graphics tools. I slowed these videos down to see whether I could find any patterns in how the characters, rows, or columns moved and changed. 
 
 My best friend when creating this algorithm was the mighty pen and paper. 
 Drawing multiple states of a single raindrop helped me visualise how my algorithm would work, making patterns jump out to me. Noting the X and Y coordinates of a single raindrop's lifetime was how I picked out repeating logic that could be looped, and the relation between the size of the raindrop and its start and end points.
@@ -58,9 +58,9 @@ Drawing multiple states of a single raindrop helped me visualise how my algorith
 
 ### Digital Droplet Logic
 
-Every droplet begins as a deque of a `random number` of `random characters` representing a column. It was easier for me to visualise an existing raindrop with a method to print it as opposed to printing the state of a raindrop, conditionally adding a character, and printing it again.
+Every droplet begins as a deque of a `random number` of `random characters` representing a column. It was easier for me to visualise an existing raindrop, with a method to print it as opposed to printing the state of a raindrop, conditionally adding a character, and printing it again.
 
-Each deque would be an instance of a DigitalDroplet and form a column. A deque(short form for double-ended queue) is an indexed sequence container that allows insertion and deletion at both its beginning and end. This perfectly suited to my visualisation of every Droplet having a character enqueued from the back, but the top-most character dequeued when the droplet reaches the end of page. While both vectors and deques are dynamically sized data structures, the expansion of a deque is cheaper than that of a vector because it does not copy the existing elements to a new memory location. This comes at the cost of a larger initial memory since a deque holding just one element has to allocate its full internal array (8 times the object size).
+Each deque would be an instance of a `DigitalDroplet` and form a column. A `deque`r(short form for double-ended queue) is an indexed sequence container that allows insertion and deletion at both its beginning and end. This perfectly suited to my visualisation of every Droplet having a character enqueued from the back, but the top-most character dequeued when the droplet reaches the end of page. While both vectors and deques are dynamically sized data structures, the expansion of a deque is cheaper than that of a vector because it does not copy the existing elements to a new memory location. This comes at the cost of a larger initial memory since a deque holding just one element has to allocate its full internal array (8 times the object size).
 
 I use C++'s random device and random engine since random devices are `non-deterministic`, using sources of entropy from hardware or the operating system. The number generated from the random device is used to seed the random engine. Random engines are `pseudo-random`, implementing algorithms, seeded with the value from a random device.
 
@@ -119,22 +119,24 @@ Each asynchronous task in the array is associated with a raindrop. When a task w
 
 *Fig.3.2 ASYNC CODE USING STATUS ARRAYS*
 
+
 ## Problem-Solving
 
 1. ### Handling Multiple RainDrops
 
 Once I got the logic of a single raindrop working from formation to disappearing, the next step was to figure out how I would replicate this behaviour for multiple columns. 
 
-Initially, I attempted to use a for loop to update the raindrops, but this approach caused a laggy effect as only one raindrop was updated at a time, leaving the others frozen. To address this, I experimented with methods keeping concurrency as the last solution, such as adjusting sleep times between print operations and increasing the sleep time between recursive calls. However, I realized that this approach wouldn't work due to the nested nature of recursive functions. The recursive function formed a nested priority stack following a `Last-In-First-Out`(LIFO) order, which monopolized priority and prevented it from passing to other raindrops.
+Initially, I attempted to use a for loop to update the raindrops, but this approach caused a laggy effect as only one raindrop was updated at a time, leaving the others frozen. To address this, I experimented with methods keeping concurrency as the last solution, such as adjusting sleep times between print operations and increasing the sleep time between recursive calls. However, I realised that this approach wouldn't work due to the nested nature of recursive functions. The recursive function formed a nested priority stack following a `Last-In-First-Out`(LIFO) order, which monopolised priority and prevented it from passing to other raindrops.
 
 Ultimately, I fixed the problem by using async tasks to handle the printing of each raindrop. I also tackled the issue of the shared console by using a mutex, which helped coordinate the output of each raindrop.
 
 2. #### Sharing Access to the Console Cursor
-Getting multiple raindrops printed introduced quirky behaviour with the cursor getting *lost*. 
+
+Getting multiple raindrops printed introduced quirky behaviour with the cursor getting *lost*, printing characters at the wrong point. 
 
 *Fig.4.1 INSERT IMAGE OF CURSOR GETTING LOST*
 
-A mutex is a synchronisation object to control access to a shared resource in a concurrent or multithreaded program. To synchronise access to the cursor, our shared resource in this case, a mutex is created as a static variable in the DigitalRain class, ensuring the same mutex is shared between all instances of DigitalRain and by extension, all DigitalDroplets. The mutex is passed by reference to the print function, where the mutex is locked right before the console is accessed. The mutex is automatically unlocked after the code escapes the scope of the mutex being locked.
+A mutex is a `synchronisation object` used to control access to a `shared resource` in a concurrent or multithreaded program. To synchronise access to the cursor, which serves as the shared resource in this case, a mutex is created as a static variable in the DigitalRain class, ensuring the same mutex is shared between all instances of DigitalRain and by extension, all DigitalDroplets. The mutex is passed by reference to the print function, where the mutex is locked right before the console is accessed. The mutex is automatically unlocked after the code escapes the scope of the mutex being locked.
 
 *Fig 4.2 IMAGE OF MUTEX*
 
