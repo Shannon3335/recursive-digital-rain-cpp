@@ -7,11 +7,12 @@ categories: demo
 ##### Shannon Fernandes
 
 ## Introduction
+
 We have all seen the digital rain from the Matrix series—the iconic green falling Japanese and Roman characters, and Arabic numerals. Simon Whiteley created the Matrix code. In an interview with CNet, Simon said that the characters were scanned from his wife's Japanese cookbooks further saying "I like to tell everybody that the Matrix code is made of Japanese sushi recipes".It has since become the characteristic mark of the franchise, often used in other pop culture media to portray a hacker looking at 3 screens and saying "I'm in". 
 
-Though I will not be hacking in this project, I will showcase my take on digital rain in C++, implementing modern practices and delving deeper into some features in the standard C++ library.
+Though I will not be hacking in this project, I will showcase my take on digital rain in C++, implementing modern practices and delving deeper into the standard C++ library.
 
-Here is a table of features used from C++ 
+Here is a table of features I have used from the C++ standard library
 
 | Feature| Purpose |
 | -----------| ----------- |
@@ -29,7 +30,7 @@ Here is a table of features used from C++
 ### Coding Practices
 1. Github 
 
-Github was essential to aiding my confidence to experiment, being able to rollback breaking changes to the last working version of my code. It's also useful when I want to showcase images of imperfect outputs or issues I faced as you will see throughout this blog.
+Github was essential to aiding my confidence to experiment, being able to roll back breaking changes to the last working version of my code.
 
 <div style="text-align: center;">
 <img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/githubLogo.png" width=200>
@@ -41,12 +42,12 @@ Github was essential to aiding my confidence to experiment, being able to rollba
 
 It was useful to test independent complex pieces of code where possible, to catch issues early, and to prevent a situation where errors or bugs cascade over each other, making debugging a nightmare.
 
-Apart from the standard constructor, destructor, getter and setter test methods, I sanity tested my methods that had to generate random sizes and characters before implementing them in my digital rain logic.
+I conducted sanity tests on methods that had to generate random sizes and characters before implementing them in my digital rain logic.
 
 <div style="text-align: center;">
-<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/test-functions.png" >
+<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/test-functions.png" width=600>
 <br>
-<em><small>Fig.1.2 HEADER TEST CODE</small></em>
+<em><small>Fig.1.2 Test functions created in TestDigitalRain</small></em>
 </div>
 
 3. Using global defines for debugging
@@ -54,22 +55,21 @@ Apart from the standard constructor, destructor, getter and setter test methods,
 I used separate global defines to conditionally run the test code, and to increase the sleep time between print statements. This allowed me to observe the droplets more closely when testing my algorithm.
 
 <div style="text-align: center;">
-<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/global-defines-testing.png" >
+<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/global-defines-testing.png" width=600>
 <br>
-<em><small>Fig.1.3 INSERT IMAGE OF DEFINE USING THE TEST GLOBAL DEFINE</small></em>
+<em><small>Fig.1.3 Preprocessor macro TESTING conditionally runs testing code</small></em>
 </div>
 
 ## Algorithm
 
 There are many ways I visualise the Matrix Digital Rain. I first watched plenty of digital rains created by other people online using coding languages or graphics tools. I slowed these videos down to see whether I could find any patterns in how the characters, rows, or columns moved and changed. 
 
-My best friend when creating this algorithm was the mighty pen and paper. 
-Drawing multiple states of a single raindrop helped me visualise how my algorithm would work, making patterns jump out to me. Noting the X and Y coordinates of a single raindrop's lifetime was how I picked out repeating logic that could be looped, and the relation between the size of the raindrop and its start and end points.
+My best friend when creating this algorithm was the pen and paper. Drawing multiple states of a single raindrop helped me visualise how my algorithm would work, making patterns jump out to me. Noting the X and Y coordinates of a single raindrop's lifetime was how I picked out repeating logic that could be looped, and the relation between the size of the raindrop and its start and end points.
 
 <div style="text-align: center;">
 <img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/global-defines-testing.png" >
 <br>
-<em><small>Fig.2.1 INSERT IMAGE OF THE DRAWINGS HERE</small></em>
+<em><small>Fig.2.1 My notebook experimenting with different logic</small></em>
 </div>
 
 
@@ -85,7 +85,7 @@ I've opted for the Mersenne Twister Engine, a widely used 32-bit random number g
 
 
 <div style="text-align: center;">
-<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/mersenne-twister-engine.png" >
+<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/mersenne-twister-engine.png" width=600>
 <br>
 <em><small>Fig.2.2 Code used to generate random characters</small></em>
 </div>
@@ -94,49 +94,52 @@ I've opted for the Mersenne Twister Engine, a widely used 32-bit random number g
 
 Designing a raindrop to cascade down the screen is my priority for visualising the overall rain. This will form a basis for the later expansion into the rain formation and rain disappearing visualisations.
 
-*Fig.2.3 INSERT IMAGE OF SAMPLE RAIN DROP PROCESS*
-
 The above image conveys my thought process, examining the states of the raindrop in terms of a `startpoint` (Y-axis value of the `tail of the droplet`), `endpoint`(Y-axis value of the `head of the droplet`) and `end of page` (where the droplet will `start disappearing`). 
 
 Given the start point, my print function displays the entire raindrop bottom-up at one point of time, starting with the head of the raindrop.
 
 <div style="text-align: center;">
-<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/rain-drop.png" >
+<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/rain-drop-code.png" width=800>
 <br>
-<em><small>Fig.2.4 INSERT IMAGE OF RAIN DROP CODE</small></em>
+<em><small>Fig.2.5 Rain drop code snippet</small></em>
 </div>
 
 2. #### Rain Formation
 
-*Fig.2.5 INSERT IMAGE OF SAMPLE RAIN FORMATION PROCESS*
-
-Rain Formation is the name I gave the case where the droplet starts with only the first character on screen.
+I gave the name Rain Formation to the case where the droplet starts with only the first character on screen.
 Since the droplet already exists with a random number of characters, I use a for loop to print the head of the droplet first, going down the Y axis every iteration, revealing another character until all characters are on screen with the tail of the droplet still at (X,0). 
 
 <div style="text-align: center;">
-<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/rain-formation.png" >
+<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/RainFormationLogic.drawio.png" >
 <br>
-<em><small>Fig.2.6 INSERT IMAGE OF RAIN FORMATION CODE</small></em>
+<em><small>Fig.2.4 Rain formation logic</small></em>
+</div>
+<br>
+<br>
+<div style="text-align: center;">
+<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/new-rain-formation-code.png" width=600>
+<br>
+<em><small>Fig.2.6 Rain formation code snippet</small></em>
 </div>
 
 3. #### Rain Disappear
 
 *Fig.2.7 INSERT IMAGE OF RAIN DISAPPEARING EXAMPLE*
 
-The logic for the droplet disappearing was comparatively the simplest. When the head of the raindrop reaches the end of the page, dequeue the current head of the droplet and print it again with the new head of the raindrop at the end of the page.
+The logic for the droplet disappearing was comparatively the simplest. When the head of the raindrop reaches the end of the page, dequeue the current head of the droplet using `deque.pop_front()` and print it again with the new head of the raindrop at the end of the page.
 
 <div style="text-align: center;">
-<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/rain-disappear.png" >
+<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/rain-disappear.png" width=400>
 <br>
-<em><small>Fig.2.8 INSERT IMAGE OF RAIN DISAPPEARING CODE</small></em>
+<em><small>Fig.2.8 Remove the character at the front of the droplet</small></em>
 </div>
 
 4. #### Recursion
 
 <div style="text-align: center;">
-<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/rain-logic.drawio.jpg" >
+<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/rain-logic.drawio.jpg" height=600>
 <br>
-<em><small>Fig.2.9 RECURSION FUNCTION LOGIC</small></em>
+<em><small>Fig.2.9 Recursion logic flowchart</small></em>
 </div>
 
 Noticing a repetition in printing a raindrop, I created a recursive function that would take in an initial start point, print the droplet, increment the start point, and call itself again with a new start point. I could have used a `nested for loop` to repeat this logic, but opted to use recursive logic since the deque being empty was a clear end case and it was easier to understand the logic.
@@ -148,9 +151,9 @@ My approach to managing multiple droplets extends my method for handling raindro
 Surrounded by concurrency in GoLang and JavaScript, I devised a solution using a vector to track the statuses of asynchronous tasks printing raindrops. I have created a proof of concept using both asynchronous tasks and threads but decided to go with asynchronous tasks. Using async tasks in C++ gives an abstracted way to handle concurrency `without managing promises, responses and thread pools`, while giving an `easier way to return values` from the tasks compared to threads. Threads, however, provide granular control over performance, with the possibility of `true parallelism`, with the tradeoff being higher resource utilisation.
 
 <div style="text-align: center;">
-<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/asyncLogic.drawio.png" >
+<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/asyncLogic.drawio.png" height=600>
 <br>
-<em><small>Fig.3.1 DRAWING OF STATUS ARRAY USED TO CONTROL STATUS OF TASKS</small></em>
+<em><small>Fig.3.1 DigitalRain controlling mutliple async tasks flowchart</small></em>
 </div>
 
 Each asynchronous task in the vector is associated with a raindrop. When a task was initiated, its corresponding index in the status vector was set to 1. Upon completion of the recursive function, signified by the return value meeting the end condition, the status value for that index was reset to 0.
@@ -158,9 +161,9 @@ Each asynchronous task in the vector is associated with a raindrop. When a task 
 
 ## Problem-Solving
 
-1. ### Handling Multiple RainDrops
+1. #### Handling Multiple RainDrops
 
-Once I got the logic of a single raindrop working from formation to disappearing, the next step was to figure out how I would replicate this behaviour for multiple columns. 
+Once I got the logic of a single raindrop's lifetime, the next step was to figure out how I would replicate this behaviour for multiple raindrops. 
 
 Initially, I attempted to use a for loop to update the raindrops, but this approach caused a laggy effect as only one raindrop was updated at a time, leaving the others frozen. To address this, I experimented with methods keeping concurrency as the last solution, such as adjusting sleep times between print operations and increasing the sleep time between recursive calls. However, I realised that this approach wouldn't work due to the nested nature of recursive functions. The recursive function formed a nested priority stack following a `Last-In-First-Out`(LIFO) order, which monopolised priority and prevented it from passing to other raindrops.
 
@@ -172,22 +175,19 @@ Getting multiple raindrops printed introduced quirky behaviour with the cursor g
 
 
 <div style="text-align: center;">
-<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/cursorLost.png" >
+<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/cursorLost.png" height=500>
 <br>
 <em><small>Fig.4.1 Image of cursor getting lost, failing to remove trailing characters</small></em>
 </div>
 
-A mutex is a `synchronisation object` used to control access to a `shared resource` in a concurrent or multithreaded program. To synchronise access to the cursor, which serves as the shared resource in this case, a mutex is created as a static variable in the DigitalRain class, ensuring the same mutex is shared between all instances of DigitalRain and by extension, all DigitalDroplets. The mutex is passed by reference to the print function, where the mutex is locked right before the console is accessed. The mutex is automatically unlocked after the code escapes the scope of the mutex being locked.
+A mutex is a `synchronisation object` that controls access to a `shared resource` in a concurrent or multithreaded program. To synchronise access to the shared resource: the cursor, I create a mutex in the DigitalRain class, and the same mutex is shared between all DigitalDroplets. The mutex is locked right before the console is accessed and is unlocked when the code escapes the scope in which the mutex was locked.
 
 <div style="text-align: center;">
-<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/mutexBasicImage.png" >
+<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/mutexBasicImage.png" width=300>
 <br>
 <em><small>Fig 4.2 Basic concept of mutex, Marushchack Sofiia[1]</small></em>
 </div>
 
-*Fig.4.3 INSERT CODE USING MUTEX*
-
 ## References 
 
 [1] Marushchack, Sofiia. “How to Use Golang Mutex for Concurrent Programming.” MarketSplash, 21 Sept. 2023, marketsplash.com/tutorials/go/golang-mutex/. Accessed 20 Mar. 2024.
-
