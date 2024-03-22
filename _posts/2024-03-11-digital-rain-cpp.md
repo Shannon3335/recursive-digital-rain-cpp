@@ -100,7 +100,7 @@ Given the start point, my print function displays the entire raindrop bottom-up 
 <div style="text-align: center;">
 <img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/rain-drop-code.png" width=800>
 <br>
-<em><small>Fig.2.5 Rain drop code snippet</small></em>
+<em><small>Fig.2.3 Rain drop code snippet</small></em>
 </div>
 
 #### 2. Rain Formation
@@ -118,19 +118,19 @@ Since the droplet already exists with a random number of characters, I use a for
 <div style="text-align: center;">
 <img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/new-rain-formation-code.png" width=600>
 <br>
-<em><small>Fig.2.6 Rain formation code snippet</small></em>
+<em><small>Fig.2.5 Rain formation code snippet</small></em>
 </div>
 
 #### 3. Rain Disappear
 
-*Fig.2.7 INSERT IMAGE OF RAIN DISAPPEARING EXAMPLE*
+*Fig.2.6 INSERT IMAGE OF RAIN DISAPPEARING EXAMPLE*
 
 The logic for the droplet disappearing was comparatively the simplest. When the head of the raindrop reaches the end of the page, dequeue the current head of the droplet using `deque.pop_front()` and print it again with the new head of the raindrop at the end of the page.
 
 <div style="text-align: center;">
 <img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/rain-disappear.png" width=400>
 <br>
-<em><small>Fig.2.8 Remove the character at the front of the droplet</small></em>
+<em><small>Fig.2.7 Remove the character at the front of the droplet</small></em>
 </div>
 
 #### 4. Recursion
@@ -140,12 +140,12 @@ Noticing a repetition in printing the state of a raindrop, I created a recursive
 <div style="text-align: center;">
 <img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/rain-logic.drawio.jpg" height=600>
 <br>
-<em><small>Fig.2.9 Recursion logic flowchart</small></em>
+<em><small>Fig.2.8 Recursion logic flowchart</small></em>
 </div>
 
 ### Digital Rain Logic
 
-My approach to managing multiple droplets extends my method for handling raindrops. By iterating through each droplet sequentially using a `for loop`, the recursive function's self-calling nature causes a predictable pattern where each droplet blocks others from printing during its lifespan, before the next iteration of the loop.
+My approach to managing raindrops was shaped by the recursive nature of my print function, which I will delve into more deeply later.
 
 Surrounded by concurrency in GoLang and JavaScript, I devised a solution using a vector to track the statuses of asynchronous tasks printing raindrops. I have created a proof of concept using both asynchronous tasks and threads but decided to go with asynchronous tasks. Using async tasks in C++ gives an abstracted way to handle concurrency `without managing promises, responses and thread pools`, while giving an `easier way to return values` from the tasks compared to threads. Threads, however, provide granular control over performance, with the possibility of `true parallelism`, with the tradeoff being higher resource utilisation.
 
@@ -163,9 +163,9 @@ Each asynchronous task in the vector is associated with a raindrop. When a task 
 
 #### 1. Handling Multiple RainDrops
 
-Once I got the logic of a single raindrop's lifetime, the next step was to figure out how I would replicate this behaviour for multiple raindrops. 
+Once I got the logic of a single raindrop's lifetime, the next step was to replicate this behaviour for multiple raindrops. 
 
-Initially, I attempted to use a for loop to update the raindrops, but this approach caused a laggy effect as only one raindrop was updated at a time, leaving the others frozen. To address this, I experimented with methods keeping concurrency as the last solution, such as adjusting sleep times between print operations and increasing the sleep time between recursive calls. However, I realised that this approach wouldn't work due to the nested nature of recursive functions. The recursive function formed a nested priority stack following a `Last-In-First-Out`(LIFO) order, which monopolised priority and prevented it from passing to other raindrops.
+I attempted using a for loop to update the raindrops, but this approach caused a laggy effect as only one raindrop was updated at a time, leaving the others frozen. To address this, I experimented with methods keeping concurrency as the last solution, such as adjusting sleep times between print operations and increasing the sleep time between recursive calls. However, I realised that this approach wouldn't work due to the nested nature of recursive functions. The recursive function formed a nested priority stack following a `Last-In-First-Out`(LIFO) order, which monopolised priority and prevented it from passing to other raindrops.
 
 Ultimately, I fixed the problem by using async tasks to handle the printing of each raindrop. I also tackled the issue of the shared console by using a mutex, which helped coordinate the output of each raindrop. I will go in-depth into this solution in the following section.
 
@@ -181,7 +181,7 @@ Printing multiple raindrops led to unexpected behavior with the cursor position,
 </div>
 <br>
 
-A mutex is a `synchronisation object` that controls access to a `shared resource` in a concurrent or multithreaded program. To synchronise access to the shared resource: the cursor, I create a mutex in the DigitalRain class, and the same mutex is shared between all DigitalDroplets. The mutex is locked right before the console is accessed and is unlocked when the code escapes the scope in which the mutex was locked.
+A mutex is a `synchronisation object` that controls access to a `shared resource` in a concurrent or multithreaded program. To synchronise access to the shared resource: the cursor. I create a mutex in the DigitalRain class, and the same mutex is shared between all DigitalDroplets. The mutex is locked right before the console is accessed and is unlocked when the code escapes the scope in which the mutex was locked.
 
 <div style="text-align: center;">
 <img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/mutexBasicImage.png" width=300>
@@ -192,8 +192,9 @@ A mutex is a `synchronisation object` that controls access to a `shared resource
 
 ## Modern C++ 
 
-Going into this project, I was unsure how well I would be able to convey my thought process using C++, having used a lot more JavaScript and Python around the time. I quickly realised how much I prefer static typing in C++, since it acted as a safety net, preventing type errors from passing.
+Going into this project, I was concerned my inexperience with modern C++ would render me unable to convey my thought process using C++, given my recent focus on JavaScript and Python. However, I quickly realized that I prefer static typing in C++, acting as a safety net and preventing type errors from passing through.
 
+It took conscious effort to follow a coding style closer to object oriented programming instead of a functional approach.  I disliked having a separate header file and a .cpp file, preferring to have everything contained in one file per class. However, I understand the reason for this practice, and how it pertains to the good practices of encapsulation and possibly reducing compilation time.
 
 ## References 
 
