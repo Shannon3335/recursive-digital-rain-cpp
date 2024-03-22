@@ -29,11 +29,13 @@ Here is a table of features used from C++
 ### Coding Practices
 1. Github 
 
-Github was essential in aiding my confidence to experiment, being able to rollback breaking changes to the last working version of my code. It's also useful when I want to showcase images of imperfect outputs or issues I was facing as you will see throughout this blog.
+Github was essential to aiding my confidence to experiment, being able to rollback breaking changes to the last working version of my code. It's also useful when I want to showcase images of imperfect outputs or issues I faced as you will see throughout this blog.
 
+<div style="text-align: center;">
 <img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/githubLogo.png" width=200>
-
-*Fig.1.1 GITHUB LOGO*
+<br>
+<em><small>Fig.1.1 GITHUB LOGO</small></em>
+</div>
 
 2. Using Test Functions to create procedural tests
 
@@ -41,55 +43,68 @@ It was useful to test independent complex pieces of code where possible, to catc
 
 Apart from the standard constructor, destructor, getter and setter test methods, I sanity tested my methods that had to generate random sizes and characters before implementing them in my digital rain logic.
 
-
+<div style="text-align: center;">
 <img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/test-functions.png" >
-
-*Fig.1.2 HEADER TEST CODE*
+<br>
+<em><small>Fig.1.2 HEADER TEST CODE</small></em>
+</div>
 
 3. Using global defines for debugging
 
-I used separate global defines to conditionally run the test code, and to increase the sleep time between print statements. This allowed me to observe the droplets with closer attention when testing my algorithm.
+I used separate global defines to conditionally run the test code, and to increase the sleep time between print statements. This allowed me to observe the droplets more closely when testing my algorithm.
 
+<div style="text-align: center;">
 <img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/global-defines-testing.png" >
-*Fig.1.3 INSERT IMAGE OF DEFINE USING THE TEST GLOBAL DEFINE*
+<br>
+<em><small>Fig.1.3 INSERT IMAGE OF DEFINE USING THE TEST GLOBAL DEFINE</small></em>
+</div>
 
 ## Algorithm
 
-There are many ways I visualise the Matrix Digital rain. I first watched plenty of digital rains created by other people online using coding languages or graphics tools. I slowed these videos down to see whether I could find any patterns in how the characters, rows, or columns moved and changed. 
+There are many ways I visualise the Matrix Digital Rain. I first watched plenty of digital rains created by other people online using coding languages or graphics tools. I slowed these videos down to see whether I could find any patterns in how the characters, rows, or columns moved and changed. 
 
 My best friend when creating this algorithm was the mighty pen and paper. 
 Drawing multiple states of a single raindrop helped me visualise how my algorithm would work, making patterns jump out to me. Noting the X and Y coordinates of a single raindrop's lifetime was how I picked out repeating logic that could be looped, and the relation between the size of the raindrop and its start and end points.
 
-*Fig.2.1 INSERT IMAGE OF THE DRAWINGS HERE*
+<div style="text-align: center;">
+<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/global-defines-testing.png" >
+<br>
+<em><small>Fig.2.1 INSERT IMAGE OF THE DRAWINGS HERE</small></em>
+</div>
+
 
 ### Digital Droplet Logic
 
 Every droplet begins as a deque of a `random number` of `random characters` representing a column. It was easier for me to visualise an existing raindrop, with a method to print it as opposed to printing the state of a raindrop, conditionally adding a character, and printing it again.
 
-Each deque would be an instance of a `DigitalDroplet` and form a column. A `deque`(short form for double-ended queue) is an indexed sequence container that allows insertion and deletion at both its beginning and end. This perfectly suited to my visualisation of every Droplet having a character enqueued from the back, but the top-most character dequeued when the droplet reaches the end of page. While both vectors and deques are dynamically sized data structures, the expansion of a deque is cheaper than that of a vector because it does not copy the existing elements to a new memory location. This comes at the cost of a larger initial memory since a deque holding just one element has to allocate its full internal array (8 times the object size).
+Each deque would be an instance of a `DigitalDroplet` and form a column. A `deque`(short form for double-ended queue) is an indexed sequence container that allows insertion and deletion at both its beginning and end. This perfectly suited my visualisation of every raindrop having a character enqueued from the back, but the top-most character dequeued when the droplet reaches the end of page. While both vectors and deques are dynamically sized data structures, the expansion of a deque is cheaper than that of a vector because it does not copy the existing elements to a new memory location. This comes at the cost of a larger initial memory since a deque holding just one element has to allocate its full internal array (8 times the object size).
 
-I use C++'s random device and random engine since random devices are `non-deterministic`, using sources of entropy from hardware or the operating system. The number generated from the random device is used to seed the random engine. Random engines are `pseudo-random`, implementing algorithms, seeded with the value from a random device.
+I use C++'s `random device` and `random engine` in 2 different functions to generate a random size, and a vector of random characters to fill the raindrop with . Random devices are `non-deterministic`, drawing entropy from hardware or the operating system. The number generated from the random device is used to seed the random engine. Random engines are `pseudo-random`, implementing algorithms, seeded with the value from a random device. Although random devices are preferred where `cryptographic security` is vital, they come with drawbacks, mainly performance, entropy, and implementation. Hence, for most applications other than security, it is recommended to use the more performant random engine, seeded with the random device.
 
-The Mersenne Twister Engine is a widely used 32-bit random number generator that is my engine of choice for this project. Although random devices are preferred where cryptographic security is vital, they come with drawbacks, mainly performance, entropy, and implementation. Hence, for most applications other than security, it is recommended to use the more performant random engine, seeded with the random device.
-This method is recommended over the in-built rand() function, which is now obsolete due to its poor randomness quality and difficulty in creating a uniform distribution within a certain range.I create a uniform distribution to ensure the numbers generated by the random engine is within the range of ASCII values I want shown on screen. 
+I've opted for the Mersenne Twister Engine, a widely used 32-bit random number generator, as the engine for this project. This choice is preferred over the obsolete rand() function, which suffers from poor randomness quality and difficulty achieving a uniform distribution within a specified range. I create a uniform distribution to ensure that the numbers generated by the random engine fall within the desired range of ASCII values displayed on the screen.
 
+
+<div style="text-align: center;">
 <img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/mersenne-twister-engine.png" >
-
-*Fig.2.2 Code used to generate random characters*
+<br>
+<em><small>Fig.2.2 Code used to generate random characters</small></em>
+</div>
 
 1. #### Rain Drop
 
-Designing a raindrop to cascade down the screen is a priority for the visualisation of the overall rain. This will form a basis for the later expansion into the rain formation and rain disappearing visualisations.
+Designing a raindrop to cascade down the screen is my priority for the visualisation of the overall rain. This will form a basis for the later expansion into the rain formation and rain disappearing visualisations.
 
 *Fig.2.3 INSERT IMAGE OF SAMPLE RAIN DROP PROCESS*
 
-From the above image, you can see my thought process, looking at the states of the raindrop in terms of a `startPoint` (Y-axis value of the `tail of the droplet`), `endpoint`(Y-axis value of the `head of the droplet`) and `end of page` (where the droplet will `start disappearing`).
+The above image conveys my my thought process, examining the states of the raindrop in terms of a `startPoint` (Y-axis value of the `tail of the droplet`), `endpoint`(Y-axis value of the `head of the droplet`) and `end of page` (where the droplet will `start disappearing`). 
 
-When creating code for this logic, I knew that I would like the droplet's print function to print the entire raindrop's status at one point in time. When given the start point of the droplet, the print function prints the raindrop bottom-up, starting with the head of the raindrop.  
+Given the start point, my print function displays the entire raindrop bottom-up at one point of time, starting with the head of the raindrop.
 
+<div style="text-align: center;">
 <img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/rain-drop.png" >
-
-*Fig.2.4 INSERT IMAGE OF RAIN DROP CODE*
+<br>
+<em><small>Fig.2.4 INSERT IMAGE OF RAIN DROP CODE</small></em>
+</div>
 
 2. #### Rain Formation
 
@@ -98,11 +113,11 @@ When creating code for this logic, I knew that I would like the droplet's print 
 Rain Formation is the name I gave the case where the droplet starts with only the first character on screen.
 Since the droplet already exists with a random number of characters, I use a for loop to print the head of the droplet first, going down the Y axis every iteration, revealing another character until all characters are on screen with the tail of the droplet still at (X,0). 
 
-
+<div style="text-align: center;">
 <img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/rain-formation.png" >
-
-*Fig.2.6 INSERT IMAGE OF RAIN FORMATION CODE*
-
+<br>
+<em><small>Fig.2.6 INSERT IMAGE OF RAIN FORMATION CODE</small></em>
+</div>
 
 3. #### Rain Disappear
 
@@ -110,29 +125,33 @@ Since the droplet already exists with a random number of characters, I use a for
 
 The logic for the droplet disappearing was comparatively the simplest. When the head of the raindrop reaches the end of the page, dequeue the current head of the droplet and print it again with the new head of the rain drop at the end of the page.
 
+<div style="text-align: center;">
 <img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/rain-disappear.png" >
-
-*Fig.2.8 INSERT IMAGE OF RAIN DISAPPEARING CODE*
-
+<br>
+<em><small>Fig.2.8 INSERT IMAGE OF RAIN DISAPPEARING CODE</small></em>
+</div>
 
 4. #### Recursion
 
+<div style="text-align: center;">
 <img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/rain-logic.drawio.jpg" >
+<br>
+<em><small>Fig.2.9 RECURSION FUNCTION LOGIC</small></em>
+</div>
 
-*Fig.2.9 RECURSION FUNCTION LOGIC*
-
-Noticing a repetition in printing a raindrop, I created a recursive function that would take in an initial start point, print the droplet, increment the start point, and call the itself again with a new start point. I could have used a nested for loop to repeat this logic, but opted to use recursive logic since the deque being empty was a clear end case and it was easier to understand the logic.
-
+Noticing a repetition in printing a raindrop, I created a recursive function that would take in an initial start point, print the droplet, increment the start point, and call itself again with a new start point. I could have used a `nested for loop` to repeat this logic, but opted to use recursive logic since the deque being empty was a clear end case and it was easier to understand the logic.
 
 ### Digital Rain Logic
 
-My logic to handle multiple droplets is an extension of my raindrop logic, having code that handles every raindrop independently. Using  for loop to print each droplet sequentially resulted in a predictable pattern because the recursive function's self-calling nature caused each droplet to block other print function its lifespan before the next iteration of the loop could occur.
+My approach to managing multiple droplets extends my method for handling raindrops. By iterating through each droplet sequentially using a `for loop`, the recursive function's self-calling nature causes a predictable pattern where each droplet blocks others from printing during its lifespan, before the next iteration of the loop occurs.
 
 Surrounded by concurrency in GoLang and JavaScript, I devised a solution using a vector to track the statuses of asynchronous tasks printing raindrops. I have created a proof of concept using both asynchronous tasks and threads but decided to go with asynchronous tasks. Using async tasks in C++ gives an abstracted way to to handle concurrency `without managing promises, responses, threadpools`, while giving an `easier way to return values` from the tasks compared to threads. Threads, however, provide granular control over performance, with the possibility of `true parallelism`, with the tradeoff being higher resource utilisation.
 
+<div style="text-align: center;">
 <img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/asyncLogic.drawio.png" >
-
-*Fig.3.1 DRAWING OF STATUS ARRAY USED TO CONTROL STATUS OF TASKS*
+<br>
+<em><small>Fig.3.1 DRAWING OF STATUS ARRAY USED TO CONTROL STATUS OF TASKS</small></em>
+</div>
 
 Each asynchronous task in the vector is associated with a raindrop. When a task was initiated, its corresponding index in the status vector was set to 1. Upon completion of the recursive function, signified by the return value meeting the end condition, the status value for that index was reset to 0.
 
@@ -151,25 +170,24 @@ Ultimately, I fixed the problem by using async tasks to handle the printing of e
 
 Getting multiple raindrops printed introduced quirky behaviour with the cursor getting *lost*, printing characters at the wrong point, or `ghost characters` as I like to call them. 
 
-<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/cursorLost.png" >
 
-*Fig.4.1 INSERT IMAGE OF CURSOR GETTING LOST*
+<div style="text-align: center;">
+<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/cursorLost.png" >
+<br>
+<em><small>Fig.4.1 INSERT IMAGE OF CURSOR GETTING LOST</small></em>
+</div>
 
 A mutex is a `synchronisation object` used to control access to a `shared resource` in a concurrent or multithreaded program. To synchronise access to the cursor, which serves as the shared resource in this case, a mutex is created as a static variable in the DigitalRain class, ensuring the same mutex is shared between all instances of DigitalRain and by extension, all DigitalDroplets. The mutex is passed by reference to the print function, where the mutex is locked right before the console is accessed. The mutex is automatically unlocked after the code escapes the scope of the mutex being locked.
 
+<div style="text-align: center;">
 <img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/mutexBasicImage.png" >
-
-*Fig 4.2 Basic concept of mutex, Marushchack Sofiia[1]*
-
+<br>
+<em><small>*Fig 4.2 Basic concept of mutex, Marushchack Sofiia[1]*</small></em>
+</div>
 
 *Fig.4.3 INSERT CODE USING MUTEX*
-
 
 ## References 
 
 [1] Marushchack, Sofiia. “How to Use Golang Mutex for Concurrent Programming.” MarketSplash, 21 Sept. 2023, marketsplash.com/tutorials/go/golang-mutex/. Accessed 20 Mar. 2024.
 
-
-You can add an image that has been uploaded to the repository in a /docs/assets/images folder.
-
-<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/154-23-5-27-18-45-6m.jpg" width="100" height="100">
