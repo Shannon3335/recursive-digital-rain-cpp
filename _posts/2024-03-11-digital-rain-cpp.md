@@ -171,7 +171,7 @@ Ultimately, I fixed the problem by using async tasks to handle the printing of e
 
 #### 2. Sharing Access to the Console Cursor
 
-Getting multiple raindrops printed introduced quirky behaviour with the cursor getting *lost*, printing characters at the wrong point, or `ghost characters` as I like to call them. 
+Printing multiple raindrops led to unexpected behavior with the cursor position, resulting in characters being printed at incorrect locations or causing what I refer to as `ghost characters`. 
 
 
 <div style="text-align: center;">
