@@ -147,7 +147,7 @@ Noticing a repetition in printing the state of a raindrop, I created a recursive
 
 My approach to managing raindrops was shaped by the recursive nature of my print function, which I will delve into more deeply later.
 
-Surrounded by concurrency in GoLang and JavaScript, I devised a solution using a vector to track the statuses of asynchronous tasks printing raindrops. I have created a proof of concept using both asynchronous tasks and threads but decided to go with asynchronous tasks. Using async tasks in C++ gives an abstracted way to handle concurrency `without managing promises, responses and thread pools`, while giving an `easier way to return values` from the tasks compared to threads. Threads, however, provide granular control over performance, with the possibility of `true parallelism`, with the tradeoff being higher resource utilisation.
+Surrounded by concurrency in GoLang and JavaScript, my solution uses a vector to track the statuses of asynchronous tasks printing raindrops. I have created a proof of concept using both asynchronous tasks and threads but decided to go with asynchronous tasks. Using async tasks in C++ gives an abstracted way to handle concurrency `without managing promises, responses and thread pools`, while giving an `easier way to return values` compared to threads. Threads, however, provide granular control over performance, with the possibility of `true parallelism`, with the tradeoff being higher resource utilisation.
 
 <div style="text-align: center;">
 <img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/asyncLogic.drawio.png" height=600>
@@ -156,8 +156,13 @@ Surrounded by concurrency in GoLang and JavaScript, I devised a solution using a
 </div>
 <br>
 
-Each asynchronous task in the vector is associated with a raindrop. When a task was initiated, its corresponding index in the status vector was set to 1. Upon completion of the recursive function, signified by the return value meeting the end condition, the status value for that index was reset to 0.
+Each asynchronous task in the vector is associated with a raindrop. When a task is initiated, its corresponding index in the status vector is set to 1. As the recursive function completes its execution, the status value for that index is reset to 0.
 
+<div style="text-align: center;">
+<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/async-code.png" height=600>
+<br>
+<em><small>Fig.3.2 code snippet showing async tasks execution and waiting for response</small></em>
+</div>
 
 ## Problem-Solving
 
@@ -165,7 +170,7 @@ Each asynchronous task in the vector is associated with a raindrop. When a task 
 
 Once I got the logic of a single raindrop's lifetime, the next step was to replicate this behaviour for multiple raindrops. 
 
-I attempted using a for loop to update the raindrops, but this approach caused a laggy effect as only one raindrop was updated at a time, leaving the others frozen. To address this, I experimented with methods keeping concurrency as the last solution, such as adjusting sleep times between print operations and increasing the sleep time between recursive calls. However, I realised that this approach wouldn't work due to the nested nature of recursive functions. The recursive function formed a nested priority stack following a `Last-In-First-Out`(LIFO) order, which monopolised priority and prevented it from passing to other raindrops.
+I attempted using a for loop to update the raindrops, but this approach caused a laggy effect as only one raindrop was updated at a time, leaving the others frozen. To address this, I experimented with different methods, keeping concurrency as the last solution, such as adjusting sleep times between print operations and increasing the sleep time between recursive calls. However, I realised that this approach wouldn't work due to the nested nature of recursive functions.  A single recursive function forms a nested priority stack following a `Last-In-First-Out`(LIFO) order, which monopolised priority and prevented it from passing to a different raindrop's nested stack. 
 
 Ultimately, I fixed the problem by using async tasks to handle the printing of each raindrop. I also tackled the issue of the shared console by using a mutex, which helped coordinate the output of each raindrop. I will go in-depth into this solution in the following section.
 
