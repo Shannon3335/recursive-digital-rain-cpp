@@ -201,7 +201,7 @@ A mutex is a `synchronisation object` that controls access to a `shared resource
 
 ## Modern C++ 
 
-Utilizing modern C++ features such as auto, lambdas, vectors, and deques was crucial for completing this project, which involved mutexes, threads, and async, and introduced me to concurrency programming. Despite concerns about my algorithm's complexity, it served to introduce me to more advanced features of C++.
+Utilising modern C++ features such as auto typing, lambdas, vectors, and deques was crucial for completing this project. Despite concerns about my algorithm's complexity, using mutexes, threads, and async introduced me to concurrency programming and more advanced features of modern C++.
 
 ## References 
 
