@@ -70,13 +70,6 @@ There are many ways I visualise the Matrix Digital Rain. I first watched plenty 
 
 My best friend when creating this algorithm was the pen and paper. Drawing multiple states of a single raindrop helped me visualise how my algorithm would work, making patterns jump out to me. Noting the X and Y coordinates of a single raindrop's lifetime was how I picked out repeating logic that could be looped, and the relation between the size of the raindrop and its start and end points.
 
-<div style="text-align: center;">
-<img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/global-defines-testing.png" >
-<br>
-<em><small>Fig.2.1 My notebook experimenting with different logic</small></em>
-</div>
-
-
 ### Digital Droplet Logic
 
 Every droplet begins as a deque of a `random number` of `random characters` representing a column. It was easier for me to visualise an existing raindrop, with a method to print it as opposed to printing the state of a raindrop, conditionally adding a character, and printing it again.
