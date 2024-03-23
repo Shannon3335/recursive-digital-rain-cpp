@@ -176,7 +176,7 @@ Ultimately, I fixed the problem by using async tasks to handle the printing of e
 
 #### 2. Sharing Access to the Console Cursor
 
-Printing multiple raindrops led to unexpected behavior with the cursor position, resulting in characters being printed at incorrect locations or causing what I refer to as `ghost characters`. 
+Printing multiple raindrops led to unexpected behavior with the cursor position, resulting in characters being printed at incorrect locations or causing what I call `ghost characters`. 
 
 
 <div style="text-align: center;">
@@ -197,9 +197,7 @@ A mutex is a `synchronisation object` that controls access to a `shared resource
 
 ## Modern C++ 
 
-Going into this project, I was concerned my inexperience with modern C++ would render me unable to convey my thought process using C++, given my recent focus on JavaScript and Python. However, I quickly realized that I prefer static typing in C++, acting as a safety net and preventing type errors from passing through.
-
-It took conscious effort to follow a coding style closer to object oriented programming instead of a functional approach.  I disliked having a separate header file and a .cpp file, preferring to have everything contained in one file per class. However, I understand the reason for this practice, and how it pertains to the good practices of encapsulation and possibly reducing compilation time.
+Utilizing modern C++ features such as auto, lambdas, vectors, and deques was crucial for completing this project, which involved mutexes, threads, and async, and introduced me to concurrency programming. Despite concerns about my algorithm's complexity, it served to introduce me to more advanced features of C++.
 
 ## References 
 
