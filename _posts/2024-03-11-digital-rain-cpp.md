@@ -6,6 +6,10 @@ categories: demo
 ---
 ##### Shannon Fernandes
 
+<img src="https://github.com/Shannon3335/recursive-digital-rain-cpp/raw/main/docs/assets/matrixDigitalRain.gif" alt="Digital Rain GIF" style="width:100%; height:200px;" >
+
+
+
 ## Introduction
 
 We have all seen the digital rain from the Matrix series—the iconic green falling Japanese and Roman characters, and Arabic numerals. Simon Whiteley created the Matrix code. In an interview with CNet, Simon said that the characters were scanned from his wife's Japanese cookbooks further saying "I like to tell everybody that the Matrix code is made of Japanese sushi recipes".It has since become the characteristic mark of the franchise, often used in other pop culture media to portray a hacker looking at 3 screens and saying "I'm in". 
@@ -52,7 +56,7 @@ I conducted sanity tests on methods that had to generate random sizes and charac
 
 #### 3. Using global defines for debugging
 
-I used separate global defines to conditionally run the test code, and to increase the sleep time between print statements. This allowed me to observe the droplets more closely when testing my algorithm.
+I used separate global defines to conditionally run my test code, and to increase the sleep time between print statements. This allowed me to observe the droplets more closely when testing my algorithm.
 
 <div style="text-align: center;">
 <img src="https://raw.githubusercontent.com/shannon3335/recursive-digital-rain-cpp/main/docs/assets/global-defines-testing.png" width=600>
